@@ -3,7 +3,7 @@ from snippets.serializers import SnippetSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from snippets.serializers import UserSerializer
-
+from snippets.permissions import *
 
 # This method is to go one step furthen from the mixin clases from before.
 # REST framework provides a set of already mixed-in generic views
@@ -20,6 +20,8 @@ class SnippetList(generics.ListCreateAPIView):
 class SnippetDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Snippet.objects.all()
     serializer_class = SnippetSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
+                      IsOwnerOrReadOnly,)
 
 # used for read-only views for the user representations
 class UserList(generics.ListAPIView):
