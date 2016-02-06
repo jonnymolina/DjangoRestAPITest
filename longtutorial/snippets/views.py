@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework import renderers
-from rest_framework import 
+from rest_framework import viewsets
 from rest_framework.decorators import detail_route
 
 # This ViewSet replaced SnippetList, SnippetDetail, SnippetHighlight
@@ -48,11 +48,3 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
     # this is like before in the old views
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
-@api_view(('GET',))
-def api_root(request, format=None):
-    return Response({
-        # reverse used to return fully-qualified URLs
-        'users': reverse('user-list', request=request, format=format),
-        'snippets': reverse('snippet-list', request=request, format=format)
-    })
